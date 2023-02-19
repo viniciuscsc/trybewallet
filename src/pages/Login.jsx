@@ -5,22 +5,26 @@ import { saveEmail } from '../redux/actions/index';
 
 class Login extends React.Component {
   state = {
-    disabledBtn: true,
     email: '',
+    isDisabled: true,
     password: '',
+  };
+
+  validateFields = () => {
+    const { email, password } = this.state;
+    const regexEmail = /\S+@\S+\.\S+/;
+    const shortestPassword = 6;
+
+    const validateEmail = regexEmail.test(email);
+    const validatePassword = password.length >= shortestPassword;
+
+    return validateEmail && validatePassword;
   };
 
   handleChange = ({ target: { id, value } }) => {
     this.setState({ [id]: value }, () => {
-      const { email, password } = this.state;
-      const regexEmail = /\S+@\S+\.\S+/;
-      const shortestPassword = 6;
-
-      if (regexEmail.test(email) || password.length > shortestPassword) {
-        this.setState({ disabledBtn: false });
-      } else {
-        this.setState({ disabledBtn: true });
-      }
+      const isDisabled = !(this.validateFields());
+      this.setState({ isDisabled });
     });
   };
 
@@ -32,7 +36,7 @@ class Login extends React.Component {
   };
 
   render() {
-    const { disabledBtn } = this.state;
+    const { isDisabled } = this.state;
 
     return (
       <div>
@@ -56,7 +60,7 @@ class Login extends React.Component {
         </label>
         <button
           type="button"
-          disabled={ disabledBtn }
+          disabled={ isDisabled }
           onClick={ this.handleClick }
         >
           Entrar
