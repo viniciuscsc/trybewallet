@@ -1,9 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import Header from '../components/Header';
 import WalletForm from '../components/WalletForm';
 
-class Wallet extends React.Component {
+export default class Wallet extends Component {
   render() {
     return (
       <div>
@@ -13,5 +12,3 @@ class Wallet extends React.Component {
     );
   }
 }
-
-export default connect()(Wallet);

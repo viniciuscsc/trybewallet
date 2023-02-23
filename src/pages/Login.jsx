@@ -1,67 +1,64 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { connect } from 'react-redux';
-import { saveEmail } from '../redux/actions/index';
+import { salvaEmail } from '../redux/actions/index';
 
-class Login extends React.Component {
+class Login extends Component {
   state = {
     email: '',
-    isDisabled: true,
-    password: '',
+    senha: '',
   };
 
-  validateFields = () => {
-    const { email, password } = this.state;
+  gerenciaInput = ({ target: { id, value } }) => {
+    this.setState({ [id]: value });
+  };
+
+  validaCampos = () => {
+    const { email, senha } = this.state;
     const regexEmail = /\S+@\S+\.\S+/;
-    const shortestPassword = 6;
+    const tamanhoMinimo = 6;
 
-    const validateEmail = regexEmail.test(email);
-    const validatePassword = password.length >= shortestPassword;
+    const emailValido = regexEmail.test(email);
+    const senhaValida = senha.length >= tamanhoMinimo;
 
-    return validateEmail && validatePassword;
+    return emailValido && senhaValida;
   };
 
-  handleChange = ({ target: { id, value } }) => {
-    this.setState({ [id]: value }, () => {
-      const isDisabled = !(this.validateFields());
-      this.setState({ isDisabled });
-    });
-  };
+  habilitaBotao = () => !(this.validaCampos());
 
-  handleClick = () => {
+  gerenciaClique = () => {
     const { dispatch, history } = this.props;
     const { email } = this.state;
-    dispatch(saveEmail(email));
+
+    dispatch(salvaEmail(email));
     history.push('/carteira');
   };
 
   render() {
-    const { isDisabled } = this.state;
-
     return (
       <div>
         <label htmlFor="email">
-          Email:
+          E-mail:
           <input
             type="email"
             id="email"
-            onChange={ this.handleChange }
+            onChange={ this.gerenciaInput }
             data-testid="email-input"
           />
         </label>
-        <label htmlFor="password">
+        <label htmlFor="senha">
           Senha:
           <input
             type="password"
-            id="password"
-            onChange={ this.handleChange }
+            id="senha"
+            onChange={ this.gerenciaInput }
             data-testid="password-input"
           />
         </label>
         <button
           type="button"
-          disabled={ isDisabled }
-          onClick={ this.handleClick }
+          onClick={ this.gerenciaClique }
+          disabled={ this.habilitaBotao() }
         >
           Entrar
         </button>

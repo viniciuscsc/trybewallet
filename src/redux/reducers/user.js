@@ -1,4 +1,4 @@
-import { SAVE_EMAIL } from '../actions/index';
+import { SALVA_EMAIL } from '../actions/index';
 
 const INITIAL_STATE = {
   email: '',
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case SAVE_EMAIL:
+  case SALVA_EMAIL:
     return {
       ...state,
       email: action.payload,
