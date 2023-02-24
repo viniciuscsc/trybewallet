@@ -1,23 +1,23 @@
-export const SALVA_EMAIL = 'SALVA_EMAIL';
-export const SALVA_MOEDAS = 'REQUISITA_DADOS_API';
+export const SAVE_EMAIL = 'SAVE_EMAIL';
+export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 export const SAVE_EXPENSE = 'SAVE_EXPENSE';
 export const SAVE_TOTAL = 'SAVE_TOTAL';
 
-export const salvaEmail = (email) => ({
-  type: SALVA_EMAIL,
+export const saveEmail = (email) => ({
+  type: SAVE_EMAIL,
   payload: email,
 });
 
-const salvaMoedas = (moedas) => ({
-  type: SALVA_MOEDAS,
-  payload: moedas,
+const saveCurrencies = (currencies) => ({
+  type: SAVE_CURRENCIES,
+  payload: currencies,
 });
 
-export const fetchMoedas = () => (dispatch) => {
+export const fetchCurrencies = () => (dispatch) => {
   const URL = 'https://economia.awesomeapi.com.br/json/all';
   fetch(URL)
-    .then((resposta) => resposta.json())
-    .then((moedas) => dispatch(salvaMoedas(Object.keys(moedas))));
+    .then((response) => response.json())
+    .then((currencies) => dispatch(saveCurrencies(Object.keys(currencies))));
 };
 
 export const saveExpense = (expense) => ({

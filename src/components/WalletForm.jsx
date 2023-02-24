@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchMoedas, saveExpense, saveTotal } from '../redux/actions';
+import { fetchCurrencies, saveExpense, saveTotal } from '../redux/actions';
 
 const firtsTag = 'Alimentação';
 const firstMethod = 'Cartão de crédito';
@@ -23,18 +23,18 @@ class WalletForm extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchMoedas());
+    dispatch(fetchCurrencies());
   }
 
-  gerenciaInput = ({ target: { id, value } }) => {
+  handleChange = ({ target: { id, value } }) => {
     this.setState({ [id]: value });
   };
 
-  gerenciaClick = async () => {
+  handleClick = async () => {
     const URL = 'https://economia.awesomeapi.com.br/json/all';
     fetch(URL)
       .then((response) => response.json())
-      .then((cotacoes) => this.setState({ exchangeRates: cotacoes }, () => {
+      .then((rates) => this.setState({ exchangeRates: rates }, () => {
         const {
           id,
           value,
@@ -98,7 +98,7 @@ class WalletForm extends Component {
           <input
             type="number"
             id="value"
-            onChange={ this.gerenciaInput }
+            onChange={ this.handleChange }
             value={ value }
             data-testid="value-input"
           />
@@ -108,7 +108,7 @@ class WalletForm extends Component {
           <input
             type="text"
             id="description"
-            onChange={ this.gerenciaInput }
+            onChange={ this.handleChange }
             value={ description }
             data-testid="description-input"
           />
@@ -117,7 +117,7 @@ class WalletForm extends Component {
           Moeda:
           <select
             id="currency"
-            onChange={ this.gerenciaInput }
+            onChange={ this.handleChange }
             value={ currency }
             data-testid="currency-input"
           >
@@ -132,7 +132,7 @@ class WalletForm extends Component {
           Método de pagamento:
           <select
             id="method"
-            onChange={ this.gerenciaInput }
+            onChange={ this.handleChange }
             value={ method }
             data-testid="method-input"
           >
@@ -147,7 +147,7 @@ class WalletForm extends Component {
           Categoria:
           <select
             id="tag"
-            onChange={ this.gerenciaInput }
+            onChange={ this.handleChange }
             value={ tag }
             data-testid="tag-input"
           >
@@ -160,7 +160,7 @@ class WalletForm extends Component {
         </label>
         <button
           type="button"
-          onClick={ this.gerenciaClick }
+          onClick={ this.handleClick }
         >
           Adicionar despesa
         </button>

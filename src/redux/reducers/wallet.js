@@ -1,4 +1,4 @@
-import { SALVA_MOEDAS, SAVE_EXPENSE, SAVE_TOTAL } from '../actions/index';
+import { SAVE_CURRENCIES, SAVE_EXPENSE, SAVE_TOTAL } from '../actions/index';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case SALVA_MOEDAS:
+  case SAVE_CURRENCIES:
     return {
       ...state,
       currencies: action.payload.filter((moeda) => moeda !== 'USDT'),

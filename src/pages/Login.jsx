@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { salvaEmail } from '../redux/actions/index';
+import { saveEmail } from '../redux/actions/index';
 
 class Login extends Component {
   state = {
     email: '',
-    senha: '',
+    password: '',
   };
 
-  gerenciaInput = ({ target: { id, value } }) => {
+  handleChange = ({ target: { id, value } }) => {
     this.setState({ [id]: value });
   };
 
-  validaCampos = () => {
-    const { email, senha } = this.state;
+  validateFields = () => {
+    const { email, password } = this.state;
     const regexEmail = /\S+@\S+\.\S+/;
-    const tamanhoMinimo = 6;
+    const minLength = 6;
 
-    const emailValido = regexEmail.test(email);
-    const senhaValida = senha.length >= tamanhoMinimo;
+    const validEmail = regexEmail.test(email);
+    const validPassword = password.length >= minLength;
 
-    return emailValido && senhaValida;
+    return validEmail && validPassword;
   };
 
-  habilitaBotao = () => !(this.validaCampos());
+  enableBtn = () => !(this.validateFields());
 
-  gerenciaClique = () => {
+  handleClick = () => {
     const { dispatch, history } = this.props;
     const { email } = this.state;
 
-    dispatch(salvaEmail(email));
+    dispatch(saveEmail(email));
     history.push('/carteira');
   };
 
@@ -42,23 +42,23 @@ class Login extends Component {
           <input
             type="email"
             id="email"
-            onChange={ this.gerenciaInput }
+            onChange={ this.handleChange }
             data-testid="email-input"
           />
         </label>
-        <label htmlFor="senha">
+        <label htmlFor="password">
           Senha:
           <input
             type="password"
-            id="senha"
-            onChange={ this.gerenciaInput }
+            id="password"
+            onChange={ this.handleChange }
             data-testid="password-input"
           />
         </label>
         <button
           type="button"
-          onClick={ this.gerenciaClique }
-          disabled={ this.habilitaBotao() }
+          onClick={ this.handleClick }
+          disabled={ this.enableBtn() }
         >
           Entrar
         </button>

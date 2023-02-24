@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import App from '../App';
+import mockData from './helpers/mockData';
 
 const email = 'email-input';
 const password = 'password-input';
@@ -98,5 +99,21 @@ describe('Testes da página Wallet:', () => {
       && methodInput
       && tagInput
       && addExpenseBtn).toBeInTheDocument();
+  });
+
+  it('Verifica é feita uma requisição à API ao clicar no botão', () => {
+    const data = mockData;
+
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(data),
+    });
+
+    renderWithRouterAndRedux(<App />, {
+      initialEntries: ['/carteira'],
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledWith('https://economia.awesomeapi.com.br/json/all');
   });
 });
