@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { removeExpense, saveTotal } from '../redux/actions/index';
 
 class Table extends Component {
+  handleClick = ({ target: { id, name } }) => {
+    const { dispatch, expenses, total } = this.props;
+    const updatedTotal = total - parseFloat(name);
+
+    dispatch(saveTotal(updatedTotal));
+    dispatch(removeExpense(expenses, id));
+  };
+
   render() {
     const { expenses } = this.props;
 
@@ -50,6 +59,19 @@ class Table extends Component {
                     }
                   </td>
                   <td>Real</td>
+                  <td>
+                    <button
+                      type="button"
+                      id={ expense.id }
+                      name={ (parseFloat(expense.value)
+                        * parseFloat(expense.exchangeRates[expense.currency].ask))
+                        .toFixed(2) }
+                      onClick={ this.handleClick }
+                      data-testid="delete-btn"
+                    >
+                      Excluir
+                    </button>
+                  </td>
                 </tr>
               ))
             }
@@ -61,11 +83,13 @@ class Table extends Component {
 }
 
 Table.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = (globalState) => ({
   expenses: globalState.wallet.expenses,
+  total: globalState.wallet.total,
 });
 
 export default connect(mapStateToProps)(Table);

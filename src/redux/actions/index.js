@@ -1,7 +1,14 @@
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 export const SAVE_EMAIL = 'SAVE_EMAIL';
 export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 export const SAVE_EXPENSE = 'SAVE_EXPENSE';
 export const SAVE_TOTAL = 'SAVE_TOTAL';
+
+export const removeExpense = (expenses, id) => ({
+  type: REMOVE_EXPENSE,
+  payload: expenses,
+  payload2: parseFloat(id),
+});
 
 export const saveEmail = (email) => ({
   type: SAVE_EMAIL,
