@@ -9,6 +9,7 @@ export default class Wallet extends Component {
       <div>
         <Header />
         <WalletForm />
+        <Table />
       </div>
     );
   }
