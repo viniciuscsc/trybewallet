@@ -3,12 +3,16 @@ import {
   SAVE_CURRENCIES,
   SAVE_EXPENSE,
   SAVE_TOTAL,
+  START_EDIT,
+  SAVE_EDIT,
 } from '../actions/index';
 
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
   total: 0,
+  editor: false,
+  idToEdit: 0,
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -35,6 +39,21 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       total: parseFloat(action.payload.toFixed(2)),
+    };
+
+  case START_EDIT:
+    return {
+      ...state,
+      idToEdit: action.payload,
+      editor: true,
+    };
+
+  case SAVE_EDIT:
+    return {
+      ...state,
+      expenses: state.expenses
+        .map((expense) => (expense.id === state.idToEdit ? action.payload : expense)),
+      editor: false,
     };
 
   default:

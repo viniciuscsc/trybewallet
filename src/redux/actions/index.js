@@ -3,6 +3,8 @@ export const SAVE_EMAIL = 'SAVE_EMAIL';
 export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 export const SAVE_EXPENSE = 'SAVE_EXPENSE';
 export const SAVE_TOTAL = 'SAVE_TOTAL';
+export const START_EDIT = 'START_EDIT';
+export const SAVE_EDIT = 'SAVE_EDIT';
 
 export const removeExpense = (expenses, id) => ({
   type: REMOVE_EXPENSE,
@@ -35,4 +37,14 @@ export const saveExpense = (expense) => ({
 export const saveTotal = (total) => ({
   type: SAVE_TOTAL,
   payload: total,
+});
+
+export const startEdit = (payload) => ({
+  type: START_EDIT,
+  payload,
+});
+
+export const saveEdit = (payload) => ({
+  type: SAVE_EDIT,
+  payload,
 });

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { removeExpense, saveTotal } from '../redux/actions/index';
+import { removeExpense, saveTotal, startEdit } from '../redux/actions/index';
 
 class Table extends Component {
   handleClick = ({ target: { id, name } }) => {
@@ -11,6 +11,16 @@ class Table extends Component {
     dispatch(saveTotal(updatedTotal));
     dispatch(removeExpense(expenses, id));
   };
+
+  startEdit = ({ target: { id, name } }) => {
+    const { dispatch, total } = this.props;
+    const updatedTotal = total - parseFloat(name);
+
+    dispatch(saveTotal(updatedTotal));
+    dispatch(startEdit(Number(id)));
+  };
+
+  // onClick={ () => dispatch(startEdit(expense.id)) }
 
   render() {
     const { expenses } = this.props;
@@ -39,11 +49,7 @@ class Table extends Component {
                   <td>{expense.tag}</td>
                   <td>{expense.method}</td>
                   <td>
-                    {
-                      (expense.value === '')
-                        ? '0.00'
-                        : parseFloat(expense.value).toFixed(2)
-                    }
+                    { parseFloat(expense.value).toFixed(2) }
                   </td>
                   <td>{expense.exchangeRates[expense.currency].name}</td>
                   <td>
@@ -51,15 +57,24 @@ class Table extends Component {
                   </td>
                   <td>
                     {
-                      (expense.value === '')
-                        ? '0.00'
-                        : (parseFloat(expense.value)
-                          * parseFloat(expense.exchangeRates[expense.currency].ask))
-                          .toFixed(2)
+                      (parseFloat(expense.value)
+                      * parseFloat(expense.exchangeRates[expense.currency].ask))
+                        .toFixed(2)
                     }
                   </td>
                   <td>Real</td>
                   <td>
+                    <button
+                      type="button"
+                      id={ expense.id }
+                      name={ (parseFloat(expense.value)
+                        * parseFloat(expense.exchangeRates[expense.currency].ask))
+                        .toFixed(2) }
+                      onClick={ this.startEdit }
+                      data-testid="edit-btn"
+                    >
+                      Editar
+                    </button>
                     <button
                       type="button"
                       id={ expense.id }
@@ -91,6 +106,8 @@ Table.propTypes = {
 const mapStateToProps = (globalState) => ({
   expenses: globalState.wallet.expenses,
   total: globalState.wallet.total,
+  idToEdit: globalState.wallet.idToEdit,
+  editor: globalState.wallet.editor,
 });
 
 export default connect(mapStateToProps)(Table);
