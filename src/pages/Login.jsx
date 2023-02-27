@@ -35,6 +35,7 @@ class Login extends Component {
   };
 
   render() {
+    const { email, password } = this.state;
     return (
       <div>
         <label htmlFor="email">
@@ -42,8 +43,9 @@ class Login extends Component {
           <input
             type="email"
             id="email"
-            onChange={ this.handleChange }
             data-testid="email-input"
+            value={ email }
+            onChange={ this.handleChange }
           />
         </label>
         <label htmlFor="password">
@@ -51,8 +53,9 @@ class Login extends Component {
           <input
             type="password"
             id="password"
-            onChange={ this.handleChange }
             data-testid="password-input"
+            value={ password }
+            onChange={ this.handleChange }
           />
         </label>
         <button

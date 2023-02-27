@@ -30,15 +30,15 @@ class Table extends Component {
         <table>
           <thead>
             <tr>
-              <th>Descrição</th>
-              <th>Tag</th>
-              <th>Método de pagamento</th>
-              <th>Valor</th>
-              <th>Moeda</th>
-              <th>Câmbio utilizado</th>
-              <th>Valor convertido</th>
-              <th>Moeda de conversão</th>
-              <th>Editar/Excluir</th>
+              <th data-testid="description-th">Descrição</th>
+              <th data-testid="tag-th">Tag</th>
+              <th data-testid="method-th">Método de pagamento</th>
+              <th data-testid="value-th">Valor</th>
+              <th data-testid="currency-th">Moeda</th>
+              <th data-testid="exchange-rate-th">Câmbio utilizado</th>
+              <th data-testid="converted-value-th">Valor convertido</th>
+              <th data-testid="conversion-currency-th">Moeda de conversão</th>
+              <th data-testid="edit-delete-th">Editar/Excluir</th>
             </tr>
           </thead>
           <tbody>
